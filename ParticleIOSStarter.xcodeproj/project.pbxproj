@@ -12,6 +12,7 @@
 		0582562922C7B7A800473EAD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0582562722C7B7A800473EAD /* Main.storyboard */; };
 		0582562B22C7B7A800473EAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0582562A22C7B7A800473EAD /* Assets.xcassets */; };
 		0582562E22C7B7A800473EAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0582562C22C7B7A800473EAD /* LaunchScreen.storyboard */; };
+		D0C019032371BA31000EFAF6 /* shapes.ino in Resources */ = {isa = PBXBuildFile; fileRef = D0C019022371BA31000EFAF6 /* shapes.ino */; };
 		F28AC9CEE1C5780E6D7C9E2E /* Pods_ParticleIOSStarter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 574362EA5E0517FCFD758682 /* Pods_ParticleIOSStarter.framework */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +27,7 @@
 		574362EA5E0517FCFD758682 /* Pods_ParticleIOSStarter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ParticleIOSStarter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77D7FF97A9F98E055DF18FE6 /* Pods-ParticleIOSStarter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParticleIOSStarter.debug.xcconfig"; path = "Target Support Files/Pods-ParticleIOSStarter/Pods-ParticleIOSStarter.debug.xcconfig"; sourceTree = "<group>"; };
 		90C3E6462C43A61BF89CA8E2 /* Pods-ParticleIOSStarter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParticleIOSStarter.release.xcconfig"; path = "Target Support Files/Pods-ParticleIOSStarter/Pods-ParticleIOSStarter.release.xcconfig"; sourceTree = "<group>"; };
+		D0C019022371BA31000EFAF6 /* shapes.ino */ = {isa = PBXFileReference; lastKnownFileType = text; path = shapes.ino; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +45,7 @@
 		0582561722C7B7A800473EAD = {
 			isa = PBXGroup;
 			children = (
+				D0C019022371BA31000EFAF6 /* shapes.ino */,
 				0582562222C7B7A800473EAD /* ParticleIOSStarter */,
 				0582562122C7B7A800473EAD /* Products */,
 				C5B7DF587CEFCE808425ABD5 /* Pods */,
@@ -85,7 +88,6 @@
 				77D7FF97A9F98E055DF18FE6 /* Pods-ParticleIOSStarter.debug.xcconfig */,
 				90C3E6462C43A61BF89CA8E2 /* Pods-ParticleIOSStarter.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -152,6 +154,7 @@
 			files = (
 				0582562E22C7B7A800473EAD /* LaunchScreen.storyboard in Resources */,
 				0582562B22C7B7A800473EAD /* Assets.xcassets in Resources */,
+				D0C019032371BA31000EFAF6 /* shapes.ino in Resources */,
 				0582562922C7B7A800473EAD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
