@@ -105,14 +105,14 @@ class ViewController: UIViewController {
                     self.gameScore = self.gameScore + 1;
                     Thread.sleep(forTimeInterval: 5)
                     DispatchQueue.main.async {
-                    self.next()
+                    self.nextQuestion()
                     }
                 }
                 else if (choice == "B") {
                     self.turnParticleRed()
                     Thread.sleep(forTimeInterval: 5)
                     DispatchQueue.main.async {
-                    self.next()
+                    self.nextQuestion()
                     }
                 }
                 
@@ -121,27 +121,37 @@ class ViewController: UIViewController {
         
     }
     func next() {
-            var handler : Any?
-            handler = ParticleCloud.sharedInstance().subscribeToDeviceEvents(
-                withPrefix: "nextQuestion", deviceID:self.DEVICE_ID,handler: {
-                    (event :ParticleEvent?, error : Error?) in
-                    
-               
-                if let _ = error {
-                    print("could not subscribe to events")
-                } else {
-                    print("got event with data \(String(describing: event?.data))")
-                    let choice = (event?.data)!
-                    if (choice == "true") {
-                        self.shapeLabel.text = "▢"
-                        self.nextQuestion()
-                    }else {
-                        
-                    }
-            }
-        
-        })
-        
+        self.shapeLabel.text = "▢"
+           var handler : Any?
+                   handler = ParticleCloud.sharedInstance().subscribeToDeviceEvents(
+                       withPrefix: "playerChoice",
+                       deviceID:self.DEVICE_ID,
+                       handler: {
+                           (event :ParticleEvent?, error : Error?) in
+                       
+                       if let _ = error {
+                           print("could not subscribe to events")
+                       } else {
+                           print("got event with data \(String(describing: event?.data))")
+                           let choice1 = (event?.data)!
+                           if (choice1 == "B") {
+                               self.turnParticleGreen()
+                               self.gameScore = self.gameScore + 1;
+                               Thread.sleep(forTimeInterval: 5)
+                               DispatchQueue.main.async {
+                               self.subscribeToParticleEvents()
+                               }
+                           }
+                           else if (choice1 == "A") {
+                               self.turnParticleRed()
+                               Thread.sleep(forTimeInterval: 5)
+                               DispatchQueue.main.async {
+                               self.subscribeToParticleEvents()
+                               }
+                           }
+                           
+                       }
+                   })
     }
     
     
@@ -183,11 +193,12 @@ class ViewController: UIViewController {
     
     func nextQuestion() {
          print("Next question button pressed")
-        let parameters = ["next"]
+        self.shapeLabel.text = "▢"
+        let parameters = ["nextQuestion"]
                _ = myPhoton!.callFunction("next", withArguments: parameters) {
                    (resultCode : NSNumber?, error : Error?) -> Void in
         }
-        
+        self.next()
     }
     
     
