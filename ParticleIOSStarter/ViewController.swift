@@ -70,11 +70,11 @@ class ViewController: UIViewController {
             
             if (error != nil) {
                 print("Could not get device")
-                print(error?.localizedDescription)
+                print(error?.localizedDescription as Any)
                 return
             }
             else {
-                print("Got photon from cloud: \(device?.id)")
+                print("Got photon from cloud: \(String(describing: device?.id))")
                 self.myPhoton = device
                 
                 // subscribe to events
@@ -98,16 +98,22 @@ class ViewController: UIViewController {
             if let _ = error {
                 print("could not subscribe to events")
             } else {
-                print("got event with data \(event?.data)")
+                print("got event with data \(String(describing: event?.data))")
                 let choice = (event?.data)!
                 if (choice == "A") {
                     self.turnParticleGreen()
                     self.gameScore = self.gameScore + 1;
+                    Thread.sleep(forTimeInterval: 5)
+                    DispatchQueue.main.async {
                     self.next()
+                    }
                 }
                 else if (choice == "B") {
                     self.turnParticleRed()
+                    Thread.sleep(forTimeInterval: 5)
+                    DispatchQueue.main.async {
                     self.next()
+                    }
                 }
                 
             }
@@ -115,31 +121,28 @@ class ViewController: UIViewController {
         
     }
     func next() {
-        self.shapeLabel.text = "▢"
             var handler : Any?
             handler = ParticleCloud.sharedInstance().subscribeToDeviceEvents(
-                withPrefix: "playerChoice",
-                deviceID:self.DEVICE_ID,
-                handler: {
+                withPrefix: "nextQuestion", deviceID:self.DEVICE_ID,handler: {
                     (event :ParticleEvent?, error : Error?) in
-                
+                    
+               
                 if let _ = error {
                     print("could not subscribe to events")
                 } else {
-                    print("got event with data \(event?.data)")
+                    print("got event with data \(String(describing: event?.data))")
                     let choice = (event?.data)!
-                    if (choice == "B") {
-                        self.turnParticleGreen()
-                        self.gameScore = self.gameScore + 1;
+                    if (choice == "true") {
+                        self.shapeLabel.text = "▢"
+                        self.nextQuestion()
+                    }else {
+                        
                     }
-                    else if (choice == "A") {
-                        self.turnParticleRed()
-                    }
-                }
-            })
-
+            }
+        
+        })
+        
     }
-    
     
     
     func turnParticleGreen() {
@@ -147,7 +150,7 @@ class ViewController: UIViewController {
         print("Pressed the change lights button")
         
         let parameters = ["green"]
-        var task = myPhoton!.callFunction("answer", withArguments: parameters) {
+        _ = myPhoton!.callFunction("answer", withArguments: parameters) {
             (resultCode : NSNumber?, error : Error?) -> Void in
             if (error == nil) {
                 print("Sent message to Particle to turn green")
@@ -165,7 +168,7 @@ class ViewController: UIViewController {
         print("Pressed the change lights button")
         
         let parameters = ["red"]
-        var task = myPhoton!.callFunction("answer", withArguments: parameters) {
+        _ = myPhoton!.callFunction("answer", withArguments: parameters) {
             (resultCode : NSNumber?, error : Error?) -> Void in
             if (error == nil) {
                 print("Sent message to Particle to turn red")
@@ -175,6 +178,15 @@ class ViewController: UIViewController {
             }
         }
         //var bytesToReceive : Int64 = task.countOfBytesExpectedToReceive
+        
+    }
+    
+    func nextQuestion() {
+         print("Next question button pressed")
+        let parameters = ["next"]
+               _ = myPhoton!.callFunction("next", withArguments: parameters) {
+                   (resultCode : NSNumber?, error : Error?) -> Void in
+        }
         
     }
     
@@ -190,7 +202,7 @@ class ViewController: UIViewController {
         // 2. Send score to Particle
         // ------------------------------
         let parameters = [String(self.gameScore)]
-        var task = myPhoton!.callFunction("score", withArguments: parameters) {
+        _ = myPhoton!.callFunction("score", withArguments: parameters) {
             (resultCode : NSNumber?, error : Error?) -> Void in
             if (error == nil) {
                 print("Sent message to Particle to show score: \(self.gameScore)")
