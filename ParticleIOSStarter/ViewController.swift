@@ -103,22 +103,41 @@ class ViewController: UIViewController {
                 if (choice == "A") {
                     self.turnParticleGreen()
                     self.gameScore = self.gameScore + 1;
+                    self.next()
                 }
                 else if (choice == "B") {
                     self.turnParticleRed()
-                }else if (choice == "A" || choice == "B") {
-                    self.shapeLabel.text = "▢"
-                    if (choice == "B") {
-                            self.turnParticleGreen()
-                            self.gameScore = self.gameScore + 1;
-                            }
-                            else if (choice == "A") {
-                            self.turnParticleRed()
-                    }
-                    
+                    self.next()
                 }
+                
             }
         })
+        
+    }
+    func next() {
+        self.shapeLabel.text = "▢"
+            var handler : Any?
+            handler = ParticleCloud.sharedInstance().subscribeToDeviceEvents(
+                withPrefix: "playerChoice",
+                deviceID:self.DEVICE_ID,
+                handler: {
+                    (event :ParticleEvent?, error : Error?) in
+                
+                if let _ = error {
+                    print("could not subscribe to events")
+                } else {
+                    print("got event with data \(event?.data)")
+                    let choice = (event?.data)!
+                    if (choice == "B") {
+                        self.turnParticleGreen()
+                        self.gameScore = self.gameScore + 1;
+                    }
+                    else if (choice == "A") {
+                        self.turnParticleRed()
+                    }
+                }
+            })
+
     }
     
     
