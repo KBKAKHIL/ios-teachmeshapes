@@ -27,6 +27,8 @@ class ViewController: UIViewController {
     
     // MARK: Outlets
     
+    @IBOutlet weak var shapeLabel: UILabel!
+    
     @IBOutlet weak var scoreLabel: UILabel!
     
     override func viewDidLoad() {
@@ -57,6 +59,8 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+   
 
     // MARK: Get Device from Cloud
     // Gets the device from the Particle Cloud
@@ -83,6 +87,7 @@ class ViewController: UIViewController {
     
     //MARK: Subscribe to "playerChoice" events on Particle
     func subscribeToParticleEvents() {
+        self.shapeLabel.text = "△"
         var handler : Any?
         handler = ParticleCloud.sharedInstance().subscribeToDeviceEvents(
             withPrefix: "playerChoice",
@@ -101,6 +106,16 @@ class ViewController: UIViewController {
                 }
                 else if (choice == "B") {
                     self.turnParticleRed()
+                }else if (choice == "A" || choice == "B") {
+                    self.shapeLabel.text = "▢"
+                    if (choice == "B") {
+                            self.turnParticleGreen()
+                            self.gameScore = self.gameScore + 1;
+                            }
+                            else if (choice == "A") {
+                            self.turnParticleRed()
+                    }
+                    
                 }
             }
         })
